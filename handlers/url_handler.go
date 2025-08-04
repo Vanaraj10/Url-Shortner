@@ -41,7 +41,12 @@ func (h *URLHandler) CreateShortURL(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *URLHandler) Redirect(w http.ResponseWriter, r *http.Request) {
-	short := r.URL.Query().Get("short")
+	short := r.URL.Path[len("/"):]
+	if short == "" {
+		http.Error(w, "Short URL not provided", http.StatusBadRequest)
+		return
+	}
+
 	url, err := h.urlService.GetByShort(r.Context(), short)
 	if err != nil {
 		http.NotFound(w, r)

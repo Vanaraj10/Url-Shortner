@@ -42,7 +42,7 @@ func main() {
 		protected.Post("/shorten", urlHandler.CreateShortURL)
 	})
 
-	r.Get("/redirect", urlHandler.Redirect)
+	r.Get("/{short}", urlHandler.Redirect)
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Welcome to the URL Shortener API!"))
